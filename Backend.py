@@ -67,7 +67,7 @@ def SimpleModelDT(inp,t):
 
 
 
-def SolveAndPlot(Log_XeConc,k_ArAr3_Xe_ArXe=100,k_ArAr1_Xe_ArXe = 100,k_ArXe_Xe_XeXe1 = 500,k_ArXe_Xe_XeXe3 = 500,Ar3NonRadiative=3000):
+def SolveAndPlot(Log_XeConc=1.3,k_ArAr3_Xe_ArXe=100,k_ArAr1_Xe_ArXe = 100,k_ArXe_Xe_XeXe1 = 500,k_ArXe_Xe_XeXe3 = 500,Ar3NonRadiative=3000):
     TheXeConc=pow(10,Log_XeConc)*1e-6
     t = np.linspace(0,1500,200)
     def TunedModelDT(inp,t):
