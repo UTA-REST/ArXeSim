@@ -3,21 +3,12 @@ import scipy
 import matplotlib
 import pylab
 from scipy.integrate import odeint
-
+from scipy.interpolate import interp1d
 from ipywidgets import interact, interactive, fixed, interact_manual
 import ipywidgets as widgets
 
 
-InitialCond=[0.75,  #ArAr3   0
-             0.25,  #ArAr1   1
-             0.,  #ArXe3   2
-             0.,  #ArXe1   3
-             0.,  #XeXe3   4
-             0.,  #XeXe1   5
-             0.,  # 128    6
-             0.,  # 145    7
-             0.   # 175    8
-            ]
+
 
 Gams       =[-1./1450,#ArAr3
             -1./6.,  #ArAr1
@@ -29,6 +20,15 @@ Gams       =[-1./1450,#ArAr3
             0,       # 145
             0        # 175
             ]
+
+singlets=np.loadtxt("Singlets.txt")
+triplets=np.loadtxt("Triplets.txt")
+
+normfactor=singlets[1][0]+triplets[1][0]
+
+#Constants below convert kV/cm to V/cm, and to normalize light yield to 1
+singlets_interp=interp1d(singlets[0]*1000,singlets[1]/normfactor) 
+triplets_interp=interp1d(triplets[0]*1000,triplets[1]/normfactor)
 
 Labels = ["ArAr3",
           "ArAr1",
@@ -67,7 +67,7 @@ def SimpleModelDT(inp,t):
 
 
 
-def SolveAndPlot(Log_XeConc=1.3,k_ArAr3_Xe_ArXe=100,k_ArAr1_Xe_ArXe = 100,k_ArXe_Xe_XeXe1 = 150,k_ArXe_Xe_XeXe3 = 150,Ar3NonRadiative=3000):
+def SolveAndPlot(Log_XeConc=1.3,k_ArAr3_Xe_ArXe=100,k_ArAr1_Xe_ArXe = 100,k_ArXe_Xe_XeXe1 = 150,k_ArXe_Xe_XeXe3 = 150,Ar3NonRadiative=3000,EField=0):
     TheXeConc=pow(10,Log_XeConc)*1e-6
     t = np.linspace(0,1500,200)
     def TunedModelDT(inp,t):
@@ -82,6 +82,17 @@ def SolveAndPlot(Log_XeConc=1.3,k_ArAr3_Xe_ArXe=100,k_ArAr1_Xe_ArXe = 100,k_ArXe
         outp[7] = - (Gams[2]*inp[2]+Gams[3]*inp[3])
         outp[8] = - (Gams[4]*inp[4]+Gams[5]*inp[5])
         return outp
+
+    InitialCond=[triplets_interp(EField),  #ArAr3   0
+                 singlets_interp(EField),  #ArAr1   1
+                 0.,  #ArXe3   2
+                 0.,  #ArXe1   3
+                 0.,  #XeXe3   4
+                 0.,  #XeXe1   5
+                 0.,  # 128    6
+                 0.,  # 145    7
+                 0.   # 175    8
+    ]
     
     # solve ODE
     y = odeint(TunedModelDT,InitialCond,t)
