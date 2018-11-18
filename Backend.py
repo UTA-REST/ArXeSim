@@ -109,7 +109,7 @@ def SolveAndPlot(Log_XeConc=1.3,k_ArAr3_Xe_ArXe=100,k_ArAr1_Xe_ArXe = 100,k_ArXe
     axs2.plot(t[0:-1],Emis128,color='DarkBlue',label='128 nm')
     axs2.plot(t[0:-1],Emis145,color='purple',label='145 nm')
     axs2.plot(t[0:-1],Emis175,color='DarkRed',label='175 nm')
-    axs2.legend(loc='center right')
+    axs2.legend(loc='upper right')
     axs2.set_xlabel("Time / ns")
     axs2.set_ylim(0,0.02)
     axs2.set_title("Light Yields")
