@@ -112,7 +112,7 @@ def SolveAndPlot(Log_XeConc,k_ArAr3_Xe_ArXe=100,k_ArAr1_Xe_ArXe = 100,k_ArXe_Xe_
     axs2.set_title("Light Yields")
     axs3.bar(['128','145','175','Total'],[sum(Emis128),sum(Emis145),sum(Emis175),sum(Emis128+Emis175+Emis145)],color=['DarkBlue','purple','DarkRed','black'])
     axs3.set_title("Total Light")
-    axs2.set_xlabel("Wavelength")
+    axs3.set_xlabel("Wavelength")
 
     axs4.set_xlim(0,10)
     axs4.set_ylim(0.5,7)
