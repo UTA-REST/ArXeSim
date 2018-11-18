@@ -65,6 +65,8 @@ def SimpleModelDT(inp,t):
     outp[8] = - (Gams[4]*inp[4]+Gams[5]*inp[5])
     return outp
 
+
+
 def SolveAndPlot(Log_XeConc,k_ArAr3_Xe_ArXe=100,k_ArAr1_Xe_ArXe = 100,k_ArXe_Xe_XeXe1 = 500,k_ArXe_Xe_XeXe3 = 500,Ar3NonRadiative=3000):
     TheXeConc=pow(10,Log_XeConc)*1e-6
     t = np.linspace(0,1500,200)
@@ -83,7 +85,7 @@ def SolveAndPlot(Log_XeConc,k_ArAr3_Xe_ArXe=100,k_ArAr1_Xe_ArXe = 100,k_ArXe_Xe_
     
     # solve ODE
     y = odeint(TunedModelDT,InitialCond,t)
-    fig, [axs1,axs2,axs3]=pylab.subplots(1,3,figsize=(10,4))
+    fig, [axs1,axs2,axs3,axs4]=pylab.subplots(1,4,figsize=(15,4))
 
     for i in range(0,len(y[0])-3):
         axs1.plot(t,y[:,i],label=Labels[i])
@@ -112,6 +114,15 @@ def SolveAndPlot(Log_XeConc,k_ArAr3_Xe_ArXe=100,k_ArAr1_Xe_ArXe = 100,k_ArXe_Xe_
     axs3.set_title("Total Light")
     axs2.set_xlabel("Wavelength")
 
-
+    axs4.set_xlim(0,10)
+    axs4.set_ylim(0.5,7)
+    axs4.set_xticks([])
+    axs4.set_yticks([])
+    axs4.text(1,6,'Xe Concentration  \n  {0:1.1f} ppm'.format(TheXeConc*1e6) )
+    axs4.text(1,5,'k_ArAr3_Xe_ArXe   \n  {0:1.1f} (arb)'.format(k_ArAr3_Xe_ArXe) )
+    axs4.text(1,4,'k_ArAr1_Xe_ArXe   \n  {0:1.1f} (arb)'.format(k_ArAr1_Xe_ArXe) )
+    axs4.text(1,3,'k_ArXe_Xe_XeXe1   \n  {0:1.1f} (arb)'.format(k_ArXe_Xe_XeXe1) )
+    axs4.text(1,2,'k_ArXe_Xe_XeXe3   \n  {0:1.1f} (arb)'.format(k_ArXe_Xe_XeXe3) )
+    axs4.text(1,1,'ArAr3 Non-rad t   \n  {0:1.1f} ns'.format(Ar3NonRadiative) )
 #    axs3.set_xticks([1,2,3,4],['128','145','175','Total'])
 #    axs2.semilogy()
