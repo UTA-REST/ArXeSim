@@ -93,27 +93,30 @@ def SolveAndPlot(Log_XeConc,k_ArAr3_Xe_ArXe=100,k_ArAr1_Xe_ArXe = 100,k_ArXe_Xe_
 
     axs1.legend(loc='upper right')
     axs1.set_xlabel("Time / ns")
+    axs1.set_ylim(0,0.75)
     dt=t[1]-t[0]
-    Emis128=(y[1:,6]-y[:-1,6])/dt
-    Emis145=(y[1:,7]-y[:-1,7])/dt
-    Emis175=(y[1:,8]-y[:-1,8])/dt
+    Emis128=(y[1:,6]-y[:-1,6])
+    Emis145=(y[1:,7]-y[:-1,7])
+    Emis175=(y[1:,8]-y[:-1,8])
 
+    
   #  NormMax=np.max(Emis128+Emis145+Emis175)
   #  Emis128/=NormMax
   #  Emis145/=NormMax
   #  Emis175/=NormMax    
     dt=t[-1]-t[0]
+
     axs2.plot(t[0:-1],Emis128,color='DarkBlue',label='128 nm')
     axs2.plot(t[0:-1],Emis145,color='purple',label='145 nm')
     axs2.plot(t[0:-1],Emis175,color='DarkRed',label='175 nm')
     axs2.legend(loc='center right')
     axs2.set_xlabel("Time / ns")
-    axs2.set_ylim(0,0.01)
+    axs2.set_ylim(0,0.02)
     axs2.set_title("Light Yields")
-    axs3.bar(['128','145','175','Total'],[sum(Emis128)*dt,sum(Emis145)*dt,sum(Emis175)*dt,sum(Emis128+Emis175+Emis145)*dt],color=['DarkBlue','purple','DarkRed','black'])
-    axs3.set_title("Total Light")
+    axs3.bar(['128','145','175','Total'],[sum(Emis128),sum(Emis145),sum(Emis175),sum(Emis128+Emis175+Emis145)],color=['DarkBlue','purple','DarkRed','black'])
+    axs3.set_title("Total Light (in 1500 ns)")
     axs3.set_xlabel("Wavelength")
-
+    axs2.set_yticks([])
     axs4.set_xlim(0,10)
     axs4.set_ylim(0.5,7)
     axs4.set_xticks([])
@@ -124,5 +127,6 @@ def SolveAndPlot(Log_XeConc,k_ArAr3_Xe_ArXe=100,k_ArAr1_Xe_ArXe = 100,k_ArXe_Xe_
     axs4.text(1,3,'k_ArXe_Xe_XeXe1   \n  {0:1.1f} (arb)'.format(k_ArXe_Xe_XeXe1) )
     axs4.text(1,2,'k_ArXe_Xe_XeXe3   \n  {0:1.1f} (arb)'.format(k_ArXe_Xe_XeXe3) )
     axs4.text(1,1,'ArAr3 Non-rad t   \n  {0:1.1f} ns'.format(Ar3NonRadiative) )
+    axs4.set_title("Parameters")
 #    axs3.set_xticks([1,2,3,4],['128','145','175','Total'])
 #    axs2.semilogy()
